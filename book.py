@@ -10,6 +10,3 @@ class Book:
         self.book_title=book_title
         self.book_author=book_author
         self.isbookavailable = True
-
-
-b1 = Book(123,12321,"afaff")

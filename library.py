@@ -25,11 +25,12 @@ class Library:
             print("book already exists")
 
     def add_members(self,member_id: int,member_name: str):
+        print(type(member_id))
         if not isinstance(member_id, int):
             raise TypeError("member_id must be integer")
         if not isinstance(member_name, str):
             raise TypeError("member_name must be sting")
-        m1 = member.Member(member_name,member_id)
+        m1 = member.Member(member_id,member_name)
         if member_id not in self.librarymembers:
             self.librarymembers[member_id] = m1  #how you are adding items to dictionary
             output = self.librarymembers[member_id]
@@ -80,28 +81,31 @@ class Library:
         book.isbookavailable = True
         print(member.maxlimit)
 
-l1 = Library()
-
-l1.add_books("123","detox","suresh")
-l1.add_books(345,"dopamine","kumar")
-l1.add_books(123,"detox","suresh")
-l1.add_books(678,"shiva","kumar")
-l1.add_books(987,"gita","kumar")
-l1.add_books(123,"detox","suresh")
-
-l1.add_members(40,"satwika")
-l1.add_members('40',"satwika")
 
 
-l1.borrow_books(40,345) #memberid, bookid
-l1.borrow_books(40,123) #memberid, bookid
-l1.borrow_books(40,345) #memberid, bookid
+if __name__ == "__main__":
+    l1 = Library()
+
+    l1.add_books(123,"detox","suresh")
+    l1.add_books(345,"dopamine","kumar")
+    l1.add_books(123,"detox","suresh")
+    l1.add_books(678,"shiva","kumar")
+    l1.add_books(987,"gita","kumar")
+    l1.add_books(123,"detox","suresh")
+
+    l1.add_members(40,"satwika")
+    #l1.add_members(40,"satwika")
+
+
+    l1.borrow_books(40,345) #memberid, bookid
+    l1.borrow_books(40,123) #memberid, bookid
+    l1.borrow_books(40,345) #memberid, bookid
 
 
 
 
-l1.borrow_books(40,675) #memberid, bookid
-l1.borrow_books(40,987) #memberid, bookid
+    #l1.borrow_books(40,675) #memberid, bookid
+    l1.borrow_books(40,987) #memberid, bookid
 
-l1.return_books(40,123)    
+    l1.return_books(40,123)    
                   
