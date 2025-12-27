@@ -118,7 +118,7 @@ if __name__ == "__main__":
     l1.add_books(123,"detox","suresh")
 
     l1.add_members(40,"satwika")
-    #l1.add_members(40,"satwika")
+    l1.add_members(41,"suresh")
 
 
     l1.borrow_books(40,345) #memberid, bookid
@@ -131,5 +131,6 @@ if __name__ == "__main__":
     #l1.borrow_books(40,675) #memberid, bookid
     l1.borrow_books(40,987) #memberid, bookid
 
-    l1.return_books(40,123)    
+    l1.return_books(40,123)  
+    l1.borrow_books(41,345) #memberid, bookid  
                   
