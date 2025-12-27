@@ -9,7 +9,8 @@ class Book:
         self.book_id=book_id
         self.book_title=book_title
         self.book_author=book_author
-        #self.isbookavailable = True
+        self.isbookavailable = True
+
 
 
 class Member:
@@ -47,11 +48,12 @@ class Library:
             print("book already exists")
 
     def add_members(self,member_id: int,member_name: str):
+        print(type(member_id))
         if not isinstance(member_id, int):
             raise TypeError("member_id must be integer")
         if not isinstance(member_name, str):
             raise TypeError("member_name must be sting")
-        m1 = Member(member_name,member_id)
+        m1 = Member(member_id,member_name)
         if member_id not in self.librarymembers:
             self.librarymembers[member_id] = m1  #how you are adding items to dictionary
             output = self.librarymembers[member_id]
@@ -67,54 +69,67 @@ class Library:
         if not isinstance(book_id, int):
             raise TypeError("book_id must be integer")
         #below line by giving key (memberid) I'm getting member details as object
-        if not isinstance(member_id, int):
-            raise TypeError("member_id must be integer")
-        if not isinstance(book_id, int):
-            raise TypeError("book_id must be integer")
+        if not book_id in self.librarybooks:
+            raise KeyError("book not available in library")
+        if not member_id in self.librarymembers:
+            raise KeyError("member not registered in library")
+        #fetch member object to added books borrowed in below code
         member = self.librarymembers[member_id]
+        #fetch book object to check if book is available in below code
+        book = self.librarybooks[book_id]
+        
+        if book.isbookavailable == False:
+            raise KeyError("book is loaned to other student")
         print(member.maxlimit)
         if book_id in member.borrowed_books_bymember:
-            print("book is already given,you are not allowed take multiple books")
+            raise KeyError("book is already given,you are not allowed take multiple books")
+
+        if(member.maxlimit <3):
+            #adds  bookid  to list borrowed_books_bymember 
+            member.borrowed_books_bymember.append(book_id) # see how list items are added
+            # access maxlimit from member obj and increament counter
+            member.maxlimit = member.maxlimit+1
+            book.isbookavailable = False
         else:
-            if(member.maxlimit <3):
-                #adds  bookid  to list borrowed_books_bymember 
-                member.borrowed_books_bymember.append(book_id) # see how list items are added
-                # access maxlimit from member obj and increament counter
-                member.maxlimit = member.maxlimit+1
-            else:
-                print("exceeeded limit to borrow books")
+            print("exceeeded limit to borrow books")
+
     def return_books(self,member_id:int,book_id:int):
         if not isinstance(member_id, int):
             raise TypeError("member_id must be integer")
         if not isinstance(book_id, int):
             raise TypeError("book_id must be integer")
         member=self.librarymembers[member_id]
+        book = self.librarybooks[book_id]
         member.borrowed_books_bymember.remove(book_id)
         member.maxlimit = member.maxlimit-1
+        book.isbookavailable = True
         print(member.maxlimit)
 
-l1 = Library()
-
-l1.add_books("123","detox","suresh")
-l1.add_books(345,"dopamine","kumar")
-l1.add_books(123,"detox","suresh")
-l1.add_books(678,"shiva","kumar")
-l1.add_books(987,"gita","kumar")
-l1.add_books(123,"detox","suresh")
-
-l1.add_members(40,"satwika")
-l1.add_members('40',"satwika")
 
 
-l1.borrow_books(40,345) #memberid, bookid
-l1.borrow_books(40,123) #memberid, bookid
-l1.borrow_books(40,345) #memberid, bookid
+if __name__ == "__main__":
+    l1 = Library()
+
+    l1.add_books(123,"detox","suresh")
+    l1.add_books(345,"dopamine","kumar")
+    l1.add_books(123,"detox","suresh")
+    l1.add_books(678,"shiva","kumar")
+    l1.add_books(987,"gita","kumar")
+    l1.add_books(123,"detox","suresh")
+
+    l1.add_members(40,"satwika")
+    #l1.add_members(40,"satwika")
+
+
+    l1.borrow_books(40,345) #memberid, bookid
+    l1.borrow_books(40,123) #memberid, bookid
+    l1.borrow_books(40,345) #memberid, bookid
 
 
 
 
-l1.borrow_books(40,675) #memberid, bookid
-l1.borrow_books(40,987) #memberid, bookid
+    #l1.borrow_books(40,675) #memberid, bookid
+    l1.borrow_books(40,987) #memberid, bookid
 
-l1.return_books(40,123)    
+    l1.return_books(40,123)    
                   

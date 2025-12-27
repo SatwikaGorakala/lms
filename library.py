@@ -46,29 +46,30 @@ class Library:
         if not isinstance(book_id, int):
             raise TypeError("book_id must be integer")
         #below line by giving key (memberid) I'm getting member details as object
-        if not isinstance(member_id, int):
-            raise TypeError("member_id must be integer")
-        if not isinstance(book_id, int):
-            raise TypeError("book_id must be integer")
         if not book_id in self.librarybooks:
             raise KeyError("book not available in library")
         if not member_id in self.librarymembers:
             raise KeyError("member not registered in library")
+        #fetch member object to added books borrowed in below code
         member = self.librarymembers[member_id]
+        #fetch book object to check if book is available in below code
         book = self.librarybooks[book_id]
+        
+        if book.isbookavailable == False:
+            raise KeyError("book is loaned to other student")
         print(member.maxlimit)
         if book_id in member.borrowed_books_bymember:
-            print("book is already given,you are not allowed take multiple books")
-        else:
-            if(member.maxlimit <3):
-                #adds  bookid  to list borrowed_books_bymember 
-                member.borrowed_books_bymember.append(book_id) # see how list items are added
-                # access maxlimit from member obj and increament counter
-                member.maxlimit = member.maxlimit+1
-                book.isbookavailable = False
+            raise KeyError("book is already given,you are not allowed take multiple books")
 
-            else:
-                print("exceeeded limit to borrow books")
+        if(member.maxlimit <3):
+            #adds  bookid  to list borrowed_books_bymember 
+            member.borrowed_books_bymember.append(book_id) # see how list items are added
+            # access maxlimit from member obj and increament counter
+            member.maxlimit = member.maxlimit+1
+            book.isbookavailable = False
+        else:
+            print("exceeeded limit to borrow books")
+
     def return_books(self,member_id:int,book_id:int):
         if not isinstance(member_id, int):
             raise TypeError("member_id must be integer")
